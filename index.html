@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+	<meta name="author" content="Žan Žnidar">
+	<title>Lecture Speedrun</title>
+	<meta name="description" content="Speed up silent portions of a lecture video/audio on-the-fly!">
+</head> 
+<body> 
+
+<label for="videoUrl">URL do videoposnetka:</label> <input type="url" name="videoUrl" id="videoUrl" placeholder="video URL">
+<input type="button" value="Naloži!" onclick="myVideo.src=videoUrl.value">
+
+<br> ali izberi lokalen videoposnetek:<br>
+<label for="myfile">Izberi videoposnetek:</label> <input type="file" id="myfile" name="myfile" onchange="test()">
+<br>
+
+<div id="nastavitve">
+<label for="treshold">treshold glasnosti:</label> <input type="number" name="treshold" id="treshold" placeholder="treshold glasnosti" value="0.1" step="0.01" min=0 max=1>
+
+<label for="glajenja">Glajenje zadnjih <i>n</i> vzorcev:</label> <input type="number" name="glajenja" id="glajenja" placeholder="glajenje" value="10" step="1" min=0>
+
+<label for="silentspeed">hitrost tišine:</label> <input type="number" name="silentspeed" id="silentspeed" placeholder="hitrost tišine" value="10" min=0>
+
+<label for="loudspeed">hitrost govora:</label> <input type="number" name="loudspeed" id="loudspeed" placeholder="hitrost govora" value="1.5" step="0.5" min=0>
+
+<label for="lefting">Povrnitev ob začetku govora (set 0 to disable lefting):</label> <input type="number" name="lefting" id="lefting" placeholder="lefting [s]" value="0.2" step="0.1">
+
+<br> <label for="gaining">Dodatno ojačaj glasnost (naknadno):</label> <input type="number" name="gaining" id="gaining" placeholder="Ojačaj glasnost" value="1" step="0.5" min=0>
+
+<input type="button" value="Potrdi!" onclick="nastavi();">
+</div>
+
+<span id="fast" style="visibility:hidden">&#x23e9;&#xfe0e;</span>
+
+<!-- ne nardi nč; poženi video z gumbom Potrdi! <input type="button" value="Štartaj video!" onclick="startaj();"> -->
+<p>Trenutna glasnost: <span id="glasno"></span>
+
+<br>
+<video width="100%" height="100%" controls>
+  <source src="" type="video/mp4">
+Your browser does not support the video tag.
+</video>
+
+<script>
+function test() {
+myVideo.src = (URL.createObjectURL(myfile.files[0]));
+}
+</script>
+
+
+<script src="test3.js"></script>
+</body> 
+</html> 
