@@ -1,29 +1,27 @@
-/*	*** INSPIRED BY carykh's Automatic on-the-fly video editing tool! https://youtu.be/DQ8orIurGxw 
+/*	
+	*** INSPIRED BY carykh's Automatic on-the-fly video editing tool! https://youtu.be/DQ8orIurGxw 
 		AND jumpcutter https://github.com/carykh/jumpcutter ***
-
-
 */
 
-// povzeto po https://stackoverflow.com/questions/22104036/exporting-intensity-of-audio-in-web-audio-api 
-// in po odgovoru na kako povečati video volume za več kot 2.0
+// Parts of code based on https://stackoverflow.com/questions/22104036/exporting-intensity-of-audio-in-web-audio-api and https://stackoverflow.com/questions/43794356/html5-volume-increase-past-100
 
-TRESHOLD = 0.1; // treshold glasnosti, da tretira kot tisina/govor
-SILENTSPEED = 10; // Hitrost posnetka, ko je tisina
-LOUDSPEED = 1.5; // Hitrost posnetka, ko govori
+TRESHOLD = 0.1; // treshold of loudness to distinguish between silence and speech
+SILENTSPEED = 10; // Speed of video when silent
+LOUDSPEED = 1.5; // Speed of video when speaking
 GAINING = 1; // Gain audio afterwards (useful for almost silent videos)
-GLAJENJA = 10; // Koliko analiz mora biti tihih, da se smatra kot tisina
-LEFTING = 0.2; // Za koliko skociti nazaj, ko se spet zacne govor (da ne odrezemo prve crke govora)
+SMOOTHEN = 10; // How many consequent analyses should be silent to count it as silence
+LEFTING = 0.2; // How much back to jump when speech starts again (to avoid cutting the first letters of speech) [in seconds]
 
 myVideo = document.querySelector('video');
 
 var ctx;
 
-function nastavi() {
+function set() {
 	TRESHOLD = treshold.value;
 	SILENTSPEED = silentspeed.value;
 	LOUDSPEED = loudspeed.value;
 	GAINING = gaining.value;
-	GLAJENJA = glajenje.length = glajenja.value;
+	SMOOTHEN = smoothing.length = smoothen.value;
 	LEFTING = parseFloat(lefting.value);
 		
 	if(!ctx) {
@@ -34,10 +32,10 @@ function nastavi() {
 	}
 }
 
-var glajenje = [];
-var indeksGlajenja = 0;
-// DOES NOT WORK AS INTENDED; SEE BELOW 
-var lastLoud = true; // Uporabimo, da ob spremembi silent -> loud prevrtimo za 0.1 s nazaj in za ta cas zaustavimo analizo
+var smoothing = [];
+var indexSmoothing = 0;
+// MAY NOT WORK AS INTENDED; SEE BELOW 
+var lastLoud = true; // Used to detect change silent -> loud, so we can revert for LEFTING seconds and disable analysis for that time
 var suspended = false;
 
 
@@ -64,35 +62,35 @@ function startaj() {
 		while (i < len) total += Math.abs(input[i++])
 		rms = Math.sqrt(total / len)
 		//console.log(rms)
-		glasno.innerText = rms;
+		loudness.innerText = rms;
 
-		/* // STARI NACIN (brez glajenja)
+		/* // OLD WAY (without smoothing)
 		if (rms < TRESHOLD) {
 			myVideo.playbackRate = SILENTSPEED;
-			console.log("tisina");
+			console.log("quiet");
 		} else {
 			myVideo.playbackRate = LOUDSPEED;
-			console.log("govori");
+			console.log("speaking");
 		}
 		*/
 		
-		// NOVI NACIN (zadnjih 10 vnosov mora biti tisina)
-		if(!suspended) { /* DOES NOT WORK AS INTENDED; SEE BELOW */
+		// NEW WAY (last SMOOTHEN analyses should show quiet)
+		if(!suspended) { /* MAY NOT WORK AS INTENDED; SEE BELOW */
 		
 		if(!myVideo.paused){
-			glajenje[indeksGlajenja] = rms;
-			indeksGlajenja = (++indeksGlajenja)%GLAJENJA;
+			smoothing[indexSmoothing] = rms;
+			indexSmoothing = (++indexSmoothing)%SMOOTHEN;
 			
 			
 			if(checkSpeaking()) {
 				myVideo.playbackRate = LOUDSPEED;
 				fast.style.visibility = "hidden";
-				//console.log("govori");
+				//console.log("speaking");
 				
-				// DOES NOT WORK AS INTENDED; VIDEO PLAYBACK IS NOT SCHEDULED and is streamed.
+				// MAY NOT WORK AS INTENDED; VIDEO PLAYBACK IS NOT SCHEDULED and is streamed.
 					//				THEREFORE, it may happen (especially with more CPU/GPU-demanding videos)
 						//			THAT the timeout is over before the browser even succeeds skipping the video.
-				if(!lastLoud && LEFTING) { // if LEFTING equals 0, disable lefting (useful for resource-hog videos, see above comment
+				if(!lastLoud && LEFTING) { // if LEFTING equals 0, disable lefting (useful for resource-hog videos, see above comment)
 					suspended = true;
 					myVideo.currentTime-=(LEFTING);
 					setTimeout(() => { console.log("World!"); suspended = false; }, LEFTING*1000/LOUDSPEED);
@@ -103,8 +101,8 @@ function startaj() {
 			} else {
 				myVideo.playbackRate = SILENTSPEED;
 				fast.style.visibility = "visible";
-				//console.log("tisina");
-				lastLoud = false; /* DOES NOT WORK AS INTENDED; SEE ABOVE */
+				//console.log("quiet");
+				lastLoud = false; /* MAY NOT WORK AS INTENDED; SEE ABOVE */
 			}
 		}
 		}
@@ -115,7 +113,7 @@ function startaj() {
 
 	// create a gain node
 	gainNode = audioCtx.createGain();
-	gainNode.gain.value = GAINING; // double the volume
+	gainNode.gain.value = GAINING; // increase the volume if requested
 	source.connect(gainNode);
 
 	// connect the gain node to an output destination
@@ -123,12 +121,12 @@ function startaj() {
 }
 
 function checkSpeaking() {
-	for(g = 0; g < glajenje.length; g++) {
-		if(glajenje[g] > TRESHOLD) {
+	for(g = 0; g < smoothing.length; g++) {
+		if(smoothing[g] > TRESHOLD) {
 			return(true);
 		}
 	}
 	return(false);
 }
 
-// TODO: Implement "super smart advanced automonous machine-learning AI" to automatically set treshold
+// TODO: Implement "super smart advanced autonomous machine-learning AI" to automatically set treshold
