@@ -25,7 +25,7 @@ function set() {
 	LEFTING = parseFloat(lefting.value);
 		
 	if(!ctx) {
-		startaj();
+		begin();
 		myVideo.play();
 	} else {
 		gainNode.gain.value = GAINING; // double the volume
@@ -40,7 +40,7 @@ var suspended = false;
 
 
 	
-function startaj() {
+function begin() {
 	// create an audio context and hook up the video element as the source
 	var audioCtx = new AudioContext();
 	var source = audioCtx.createMediaElementSource(myVideo);
