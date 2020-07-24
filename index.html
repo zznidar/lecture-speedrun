@@ -5,6 +5,7 @@
 	<meta name="author" content="Žan Žnidar">
 	<title>Lecture Speedrun</title>
 	<meta name="description" content="Speed up silent portions of a lecture video/audio on-the-fly!">
+	<link rel="stylesheet" type="text/css" href="style.css">
 </head> 
 <body> 
 
@@ -12,24 +13,24 @@
 
 
 <label for="videoUrl">Video (direct URL):</label> <input type="url" name="videoUrl" id="videoUrl" placeholder="video URL">
-<input type="button" value="Set!" onclick="myVideo.src=videoUrl.value">
+<input type="button" value="Set!" onclick="myVideo.src=videoUrl.value"><img src="info6-32px.png" class="info"><div class="h">Direct URL to a video usually ends in <i>.mp4, .mov, or a similar extension</i>.</div>
 
 <br><p>or choose a local file:<br>
 <label for="myfile">Choose file:</label> <input type="file" accept="video/*, audio/*" id="myfile" name="myfile" onchange="test()"></p>
 <br>
 
 <div id="settings">
-<label for="treshold">loudness treshold:</label> <input type="number" name="treshold" id="treshold" placeholder="loudness treshold" value="0.1" step="0.01" min=0 max=1>
+<label for="treshold">loudness treshold:</label> <input type="number" name="treshold" id="treshold" placeholder="loudness treshold" value="0.1" step="0.01" min=0 max=1><img src="info6-32px.png" class="info"><div class="h">How loud the audio should be at a given moment to be treated as speech. Observe <i>Current loudness</i> below to fine-tune it.</div>
 
-<label for="glajenja">Smoothen last <i>n</i> samples:</label> <input type="number" name="smoothen" id="smoothen" placeholder="smoothing" value="10" step="1" min=0>
+<label for="glajenja">Smoothen last <i>n</i> samples:</label> <input type="number" name="smoothen" id="smoothen" placeholder="smoothing" value="10" step="1" min=0><img src="info6-32px.png" class="info"><div class="h">How many consequent analyses should be silent to count it as silence</div>
 
-<label for="silentspeed">Speed of silence:</label> <input type="number" name="silentspeed" id="silentspeed" placeholder="Silent speed" value="10" min=0>
+<label for="silentspeed">Speed of silence:</label> <input type="number" name="silentspeed" id="silentspeed" placeholder="Silent speed" value="10" min=0><img src="info6-32px.png" class="info"><div class="h">Speed of video when silent</div>
 
-<label for="loudspeed">Speed of speech:</label> <input type="number" name="loudspeed" id="loudspeed" placeholder="Loudness speed" value="1.5" step="0.5" min=0>
+<label for="loudspeed">Speed of speech:</label> <input type="number" name="loudspeed" id="loudspeed" placeholder="Loudness speed" value="1.5" step="0.5" min=0><img src="info6-32px.png" class="info"><div class="h">Speed of video when speaking</div>
 
-<label for="lefting">Revert each start of speaking [in seconds] (set 0 to disable lefting):</label> <input type="number" name="lefting" id="lefting" placeholder="lefting [s]" value="0" step="0.1">
+<label for="lefting">Revert each start of speaking [in seconds] (set 0 to disable lefting):</label> <input type="number" name="lefting" id="lefting" placeholder="lefting [s]" value="0" step="0.1"><img src="info6-32px.png" class="info"><div class="h">How much back to jump when speech starts again (to avoid cutting the first letters of speech) [in seconds]. Please note that this may produce unexpected results when watching high-quality videos; in that case just set it to 0 to disable it</div>
 
-<br> <label for="gaining">Additionally gain audio (afterwards):</label> <input type="number" name="gaining" id="gaining" placeholder="Audio gain" value="1" step="0.5" min=0>
+<br> <label for="gaining">Additionally gain audio (afterwards):</label> <input type="number" name="gaining" id="gaining" placeholder="Audio gain" value="1" step="0.5" min=0><img src="info6-32px.png" class="info"><div class="h">Should the input video be too silent for you to hear it properly, use this to additionally increase volume. <i>This does not affect the analysis as it happens after analysing the sound</i></div>
 
 <input type="button" value="Confirm!" onclick="set();">
 </div>

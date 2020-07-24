@@ -1,0 +1,25 @@
+.info {
+	height: 1em; 
+	vertical-align:middle;
+	margin-right: 0.5em;
+}
+
+
+.h {
+	display:none;
+	position: absolute;
+	/* top: 5%;
+	left: 50%; */
+	z-index: 1;
+	
+	background-color: hsla(216, 100%, 90%, 1);
+	border: 2px solid hsla(216, 100%, 25%, 1);
+	padding: 0.5em;
+	width: fit-content;
+	
+
+}
+
+img:hover + .h {
+	display:block;
+}
