@@ -10,7 +10,7 @@ SILENTSPEED = 10; // Speed of video when silent
 LOUDSPEED = 1.5; // Speed of video when speaking
 GAINING = 1; // Gain audio afterwards (useful for almost silent videos)
 SMOOTHEN = 10; // How many consequent analyses should be silent to count it as silence
-LEFTING = 0.2; // How much back to jump when speech starts again (to avoid cutting the first letters of speech) [in seconds]
+LEFTING = 0; // How much back to jump when speech starts again (to avoid cutting the first letters of speech) [in seconds]
 
 myVideo = document.querySelector('video');
 
