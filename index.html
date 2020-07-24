@@ -37,14 +37,15 @@
 <p>Current loudness: <span id="loudness"></span>
 
 <br>
-<video width="100%" height="100%" controls>
-  <source src="" type="video/mp4">
+<video width="100%" height="100%" crossorigin="anonymous" controls >
+  <source id="sourchee" src="" crossorigin="anonymous">
 Your browser does not support the video tag.
 </video>
 
 <script>
 function test() {
-myVideo.src = (URL.createObjectURL(myfile.files[0]));
+sourchee.src = (URL.createObjectURL(myfile.files[0]));
+myVideo.load();
 }
 </script>
 
