@@ -13,7 +13,7 @@ function updateSettings(settings) {
     SILENTSPEED = parseFloat(settings?.silentspeed) ?? SILENTSPEED;
     LOUDSPEED = parseFloat(settings?.loudspeed) ?? LOUDSPEED;
     GAINING = parseFloat(settings?.gaining) ?? GAINING;
-    SMOOTHEN = smoothing.length = parseInt(settings?.smoothen) ?? SMOOTHEN;
+    SMOOTHEN = smoothing.length = (parseInt(settings?.smoothen) ?? SMOOTHEN) || 1; // Smoothing must be at least size of 1 (otherwise we start writing at array index NaN, which is Not a Ngood idea)
     LEFTING = parseFloat(settings?.lefting) ?? LEFTING;
 
     if(gainNode) gainNode.gain.value = GAINING; // update the volume
