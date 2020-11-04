@@ -26,7 +26,6 @@ function passVideo(video, text = null, indicator = null) {
 }
 
 
-// TODO: review code from here down
 var ctx;
 var smoothing = [];
 var indexSmoothing = 0;
@@ -54,11 +53,10 @@ function begin() {
 			, rms
 		while (i < len) total += Math.abs(input[i++])
 		rms = Math.sqrt(total / len)
-		//console.log(rms)
+		
 		if(loudness) loudness.innerText = rms;
 
 		
-		// NEW WAY (last SMOOTHEN analyses should show quiet)
 		if(!suspended) {
 		
 			if(!myVideo.paused){
@@ -106,6 +104,7 @@ function begin() {
 }
 
 function checkSpeaking() {
+	// last SMOOTHEN analyses should show quiet
 	for(g = 0; g < smoothing.length; g++) {
 		if(smoothing[g] > THRESHOLD) {
 			return(true);
