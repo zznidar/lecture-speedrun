@@ -50,6 +50,7 @@ Your browser does not support the video tag.
 function test() {
 	sourchee.src = (URL.createObjectURL(myfile.files[0]));
 	myVideo.load();
+	if(ctx.state === "suspended") ctx.resume(); // Audio context can only be created/resumed on user input
 }
 </script>
 
@@ -59,7 +60,7 @@ function test() {
 <script>
 	console.log("DOM Loaded!");
 	passVideo(document.querySelector('video'), document.getElementById("loudness"), document.getElementById("fast")); // Pass the elements
-	begin(); // Begin the Lecture Speedrun analysis
+	console.log(begin()); // Begin the Lecture Speedrun analysis
 
 	function set() {
 		updateSettings({

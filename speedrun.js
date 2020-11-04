@@ -101,6 +101,8 @@ function begin() {
 
 	// connect the gain node to an output destination
 	gainNode.connect(audioCtx.destination);
+
+	return(ctx.state === "suspended" ? "Audio context is suspended. Call ctx.resume() after the next user gesture." : "Lecture Speedrun is up and running!"); // Audio context can only be created/resumed on user input
 }
 
 function checkSpeaking() {
