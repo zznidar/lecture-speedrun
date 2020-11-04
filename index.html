@@ -20,7 +20,7 @@
 <br>
 
 <div id="settings">
-<label for="treshold">loudness treshold:</label> <input type="number" name="treshold" id="treshold" placeholder="loudness treshold" value="0.1" step="0.01" min=0 max=1><img src="info6-32px.png" alt="Hover for more info" class="info"><div class="h">How loud the audio should be at a given moment to be treated as speech. Observe <i>Current loudness</i> below to fine-tune it.</div>
+<label for="threshold">loudness threshold:</label> <input type="number" name="threshold" id="threshold" placeholder="loudness threshold" value="0.1" step="0.01" min=0 max=1><img src="info6-32px.png" alt="Hover for more info" class="info"><div class="h">How loud the audio should be at a given moment to be treated as speech. Observe <i>Current loudness</i> below to fine-tune it.</div>
 
 <label for="smoothen">Smoothen last <i>n</i> samples:</label> <input type="number" name="smoothen" id="smoothen" placeholder="smoothing" value="10" step="1" min=0><img src="info6-32px.png" alt="Hover for more info" class="info"><div class="h">How many consequent analyses should be silent to count it as silence</div>
 
@@ -38,9 +38,9 @@
 <span id="fast" style="visibility:hidden">&#x23e9;&#xfe0e;</span>
 
 
-<p>Current loudness: <span id="loudness"></span>
+<p style="padding-bottom: 0; padding-block-end: 0; margin-bottom: 0; margin-block-end: 0;">Current loudness: <span id="loudness"></span></p>
 
-<br>
+
 <video width="100%" height="100%" crossorigin="anonymous" controls >
   <source id="sourchee" src="" crossorigin="anonymous">
 Your browser does not support the video tag.
@@ -48,12 +48,29 @@ Your browser does not support the video tag.
 
 <script>
 function test() {
-sourchee.src = (URL.createObjectURL(myfile.files[0]));
-myVideo.load();
+	sourchee.src = (URL.createObjectURL(myfile.files[0]));
+	myVideo.load();
 }
 </script>
 
 
-<script src="test3.js"></script>
+<script src="speedrun.js"></script>
+
+<script>
+	console.log("DOM Loaded!");
+	passVideo(document.querySelector('video'), document.getElementById("loudness"), document.getElementById("fast")); // Pass the elements
+	begin(); // Begin the Lecture Speedrun analysis
+
+	function set() {
+		updateSettings({
+			"threshold": threshold.value,
+			"silentspeed": silentspeed.value,
+			"loudspeed": loudspeed.value,
+			"gaining": gaining.value,
+			"smoothen": smoothen.value,
+			"lefting": lefting.value
+		})
+	}
+</script>
 </body> 
 </html> 
