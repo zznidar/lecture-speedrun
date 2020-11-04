@@ -5,3 +5,7 @@ Inspired by [carykh](https://github.com/carykh)'s [Automatic on-the-fly video ed
 
 ## Very experimental
 Prototype tested only in Chrome. Firefox may not play any audio. 
+
+## Troubleshooting
+* Make sure not to use the _lefting_ functionality. It really does more harm than good.
+* Some users report better performance if they disable _Hardware-accelerated video decode_ and _Hardware-accelerated video encode_ under chrome://flags
