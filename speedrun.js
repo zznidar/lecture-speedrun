@@ -9,12 +9,12 @@ SMOOTHEN = 10; // How many consequent analyses should be silent to count it as s
 LEFTING = 0; // How much back to jump when speech starts again (to avoid cutting the first letters of speech) [in seconds]
 
 function updateSettings(settings) {
-    THRESHOLD = parseFloat(settings?.threshold) ?? THRESHOLD;
-    SILENTSPEED = parseFloat(settings?.silentspeed) ?? SILENTSPEED;
-    LOUDSPEED = parseFloat(settings?.loudspeed) ?? LOUDSPEED;
-    GAINING = parseFloat(settings?.gaining) ?? GAINING;
+    THRESHOLD = parseFloat(settings?.threshold ?? THRESHOLD) || 0;
+    SILENTSPEED = parseFloat(settings?.silentspeed ?? SILENTSPEED) || 1;
+    LOUDSPEED = parseFloat(settings?.loudspeed ?? LOUDSPEED) || 1;
+    GAINING = parseFloat(settings?.gaining ?? GAINING) || 0;
     SMOOTHEN = smoothing.length = (parseInt(settings?.smoothen) ?? SMOOTHEN) || 1; // Smoothing must be at least size of 1 (otherwise we start writing at array index NaN, which is Not a Ngood idea)
-    LEFTING = parseFloat(settings?.lefting) ?? LEFTING;
+    LEFTING = parseFloat(settings?.lefting ?? LEFTING) || 0;
 
     if(gainNode) gainNode.gain.value = GAINING; // update the volume
 }
