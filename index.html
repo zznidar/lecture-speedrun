@@ -51,6 +51,35 @@ function test() {
 	sourchee.src = (URL.createObjectURL(myfile.files[0]));
 	myVideo.load();
 	if(ctx.state === "suspended") ctx.resume(); // Audio context can only be created/resumed on user input
+
+	// Start a stopwatch to measure time. The user can then compare how much time they saved.
+	timeStart = new Date();
+	myVideo.addEventListener('ended', timeDiff, false);
+    function timeDiff(e) {
+		timeEnd = new Date();
+		timeDifference = timeEnd - timeStart;
+		timeSpent = "";
+
+		if(timeDifference >= 1000*3600*24) {
+			timeSpent += (Math.floor(timeDifference/1000/3600/24) + "d ");
+			timeDifference %= (1000*3600*24);
+		}
+
+		if(timeDifference >= 1000*3600) {
+			timeSpent += (Math.floor(timeDifference/1000/3600) + "h ");
+			timeDifference %= (1000*3600);
+		}
+
+		if(timeDifference >= 1000*60) {
+			timeSpent += (Math.floor(timeDifference/1000/60) + "min ");
+			timeDifference %= (1000*60);
+		}
+
+		timeSpent += (Math.floor(timeDifference/1000) + "s");
+		timeDifference %= (1000);
+
+		console.log("You have spent this much time watching this video: ", timeSpent); // TODO: Actually show this somewhere on the page
+    }
 }
 </script>
 
