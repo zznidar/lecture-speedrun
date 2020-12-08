@@ -33,6 +33,9 @@
 <br> <label for="gaining">Additionally gain audio (afterwards):</label> <input type="number" name="gaining" id="gaining" placeholder="Audio gain" value="1" step="0.5" min=0><img src="info6-32px.png" alt="Hover for more info" class="info"><div class="h">Should the input video be too silent for you to hear it properly, use this to additionally increase volume. <i>This does not affect the analysis as it happens after analysing the sound</i></div>
 
 <input type="button" value="Confirm!" onclick="set();">
+<!-- Checkboxes to hide loudness and speed indicators to improve performance on slow devices -->
+<label for="hideLoudness">&nbsp; Hide current loudness indicator</label> <input type="checkbox" name="hideLoudness" id="hideLoudness" onchange="hideus()"/>
+<label for="hideSpeed">&nbsp; Hide speed indicator</label> <input type="checkbox" name="hideSpeed" id="hideSpeed" onchange="hideus()"/>
 </div>
 
 <span id="fast" style="visibility:hidden">&#x23e9;&#xfe0e;</span>
@@ -100,6 +103,16 @@ function test() {
 			"smoothen": smoothen.value,
 			"lefting": lefting.value
 		})
+	}
+</script>
+
+<script>
+	function hideus() {
+		console.log(document.getElementById("hideLoudness").checked,
+		document.getElementById("hideSpeed").checked);
+		passVideo(document.querySelector('video'), 
+			document.getElementById("hideLoudness").checked ? undefined : document.getElementById("loudness"),
+			document.getElementById("hideSpeed").checked ? undefined : document.getElementById("fast"))
 	}
 </script>
 </body> 
