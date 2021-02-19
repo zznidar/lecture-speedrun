@@ -57,6 +57,22 @@
 <!-- Checkboxes to hide loudness and speed indicators to improve performance on slow devices -->
 <label for="hideLoudness">&nbsp; Hide current loudness indicator</label> <input type="checkbox" name="hideLoudness" id="hideLoudness" onchange="hideus()"/>
 <label for="hideSpeed">&nbsp; Hide speed indicator</label> <input type="checkbox" name="hideSpeed" id="hideSpeed" onchange="hideus()"/>
+
+
+<!-- List box of saved presets -->
+<label for="presetBox"> ... or select a preset: </label>
+<select id="presetBox" name="presetBox" title="" size="4" style="position: absolute;" onchange="applyPreset(this.value)">
+	<option>Create new ...</option>
+</select>
+
+<div id="presetCreator" style="visibility:hidden; display: inline;">
+	<label for="newPresetName">Preset name: </label> 
+		<input name="newPresetName" id="newPresetName" type="text" placeholder="Preset name"> 
+	<input type="button" value="Save!" onclick="console.log(savePreset(newPresetName.value, valueify()), refreshPresets());">
+	<input type="button" value="Delete!" onclick="console.log(removePreset(newPresetName.value), refreshPresets());">
+</div>
+
+
 </div>
 
 <span id="fast" style="visibility:hidden">&#x23e9;&#xfe0e;</span>
@@ -115,8 +131,8 @@ function test() {
 	passVideo(document.querySelector('video'), document.getElementById("loudness"), document.getElementById("fast")); // Pass the elements
 	console.log(begin()); // Begin the Lecture Speedrun analysis
 
-	function set() {
-		updateSettings({
+	function valueify() {
+		return({
 			"threshold": threshold.value,
 			"silentspeed": silentspeed.value,
 			"loudspeed": loudspeed.value,
@@ -124,6 +140,19 @@ function test() {
 			"smoothen": smoothen.value,
 			"lefting": lefting.value
 		})
+	}
+
+	function devalueify(d) {
+		threshold.value = d["threshold"] ?? threshold.value;
+		silentspeed.value = d["silentspeed"] ?? silentspeed.value;
+		loudspeed.value = d["loudspeed"] ?? loudspeed.value;
+		gaining.value = d["gaining"] ?? gaining.value;
+		smoothen.value = d["smoothen"] ?? smoothen.value;
+		lefting.value = d["lefting"] ?? lefting.value;
+	}
+
+	function set() {
+		updateSettings(valueify())
 	}
 </script>
 
@@ -136,5 +165,7 @@ function test() {
 			document.getElementById("hideSpeed").checked ? undefined : document.getElementById("fast"))
 	}
 </script>
+
+<script src="presets.js"></script> <!-- Code for managing settings presets (save, load to/from storage; list presets ...) -->
 </body> 
 </html> 
