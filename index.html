@@ -81,6 +81,8 @@
 
 </div>
 
+<p id="infoTimeSpent" style="display: none; color: #31a484;">You have spent this much time watching this video: </p>
+
 <span id="fast" style="visibility:hidden">&#x23e9;&#xfe0e;</span>
 
 
@@ -125,6 +127,8 @@ function test() {
 		timeDifference %= (1000);
 
 		console.log("You have spent this much time watching this video: ", timeSpent); // TODO: Actually show this somewhere on the page
+		infoTimeSpent.innerText = ("You have spent this much time watching this video: " + timeSpent);
+		infoTimeSpent.style.display = "";
     }
 }
 </script>
