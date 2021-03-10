@@ -108,6 +108,8 @@ function test() {
 		timeDifference = timeEnd - timeStart;
 		timeSpent = "";
 
+		savedTime = Math.round((1 - timeDifference/1000 / myVideo.duration)*100); // Percentage of saved time: (1 – spent/duration)*100
+
 		if(timeDifference >= 1000*3600*24) {
 			timeSpent += (Math.floor(timeDifference/1000/3600/24) + "d ");
 			timeDifference %= (1000*3600*24);
@@ -126,8 +128,8 @@ function test() {
 		timeSpent += (Math.floor(timeDifference/1000) + "s");
 		timeDifference %= (1000);
 
-		console.log("You have spent this much time watching this video: ", timeSpent); // TODO: Actually show this somewhere on the page
-		infoTimeSpent.innerText = ("You have spent this much time watching this video: " + timeSpent);
+		console.log("You have spent this much time watching this video: ", timeSpent, "and saved this percentage of time: ", savedTime); 
+		infoTimeSpent.innerText = (`You have spent this much time watching this video: ${timeSpent}, saving you ${savedTime} % of your time.`);
 		infoTimeSpent.style.display = "";
     }
 }
