@@ -192,6 +192,31 @@ function test() {
 	}
 </script>
 
+<script>
+	// If video duration is unknown (e. g. when writing to a .mkv file has not yet finished), Chrome prevents seeking the video.
+	// We add custom controls (when pressing left and right arrow) to allow the user to jump around.
+	myVideo.addEventListener("durationchange", checkDuration);
+	function checkDuration() {
+		console.log(myVideo.duration);
+		
+		if(myVideo.duration === Infinity) {
+			// Add custom left-right controls
+			myVideo.addEventListener("keydown", customControls, false);
+		} else {
+			// Remove custom left-right controls
+			myVideo.removeEventListener("keydown", customControls);
+		}
+	}
+
+	function customControls(e) {
+		if(e.key === "ArrowRight") {
+			myVideo.currentTime += 10;
+		} else if(e.key === "ArrowLeft") {
+			myVideo.currentTime -= 10;
+		}
+	}
+</script>
+
 <script src="presets.js"></script> <!-- Code for managing settings presets (save, load to/from storage; list presets ...) -->
 </body> 
 </html> 
