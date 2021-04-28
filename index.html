@@ -132,6 +132,20 @@ function test() {
 		infoTimeSpent.innerText = (`You have spent this much time watching this video: ${timeSpent}, saving you ${savedTime} % of your time.`);
 		infoTimeSpent.style.display = "";
     }
+
+	// If video is playing, prevent closing (refreshing) the page (laptop user probably wants to adjust volume but forgot to press the Fn key)
+	window.addEventListener('beforeunload', beforeUnloadListener);
+	myVideo.addEventListener('ended', removeBeforeUnload, false); // Remove beforeunload event to allow bfcache
+
+	function beforeUnloadListener(e) {
+		e.preventDefault();
+  		return e.returnValue = 'Your lecture video is still playing. Are you sure you want to exit?';
+	}
+
+	function removeBeforeUnload() {
+		window.removeEventListener('beforeunload', beforeUnloadListener);
+	}
+
 }
 </script>
 
