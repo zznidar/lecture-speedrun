@@ -198,6 +198,7 @@ function test() {
 	myVideo.addEventListener("durationchange", checkDuration);
 	function checkDuration() {
 		console.log(myVideo.duration);
+		console.log(myVideo.videoHeight);
 		
 		if(myVideo.duration === Infinity) {
 			// Add custom left-right controls
@@ -205,6 +206,17 @@ function test() {
 		} else {
 			// Remove custom left-right controls
 			myVideo.removeEventListener("keydown", customControls);
+		}
+
+		// Update video width, height to match window size
+		if((document.documentElement.clientWidth / document.documentElement.clientHeight) > (myVideo.videoWidth / myVideo.videoHeight)) {
+			// Video is taller than screen
+			console.log("Taller");
+			myVideo.height = document.documentElement.clientHeight;
+		} else {
+			// Screen is taller than video.
+			console.log("not taller");
+			myVideo.removeAttribute("height");
 		}
 	}
 
