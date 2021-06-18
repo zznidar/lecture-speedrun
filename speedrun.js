@@ -60,8 +60,8 @@ function begin() {
 		if(!suspended) {
 		
 			if(!myVideo.paused){
-				smoothing[indexSmoothing] = rms;
-				indexSmoothing = (++indexSmoothing)%SMOOTHEN;
+				smoothing[(++indexSmoothing)%SMOOTHEN] = rms;
+				//indexSmoothing = (++indexSmoothing)%SMOOTHEN;
 				
 				
 				if(checkSpeaking()) {
