@@ -2,10 +2,10 @@ console.log("JS LOaded.");
 
 // Defalut values
 THRESHOLD = 0.1; // threshold of loudness to distinguish between silence and speech
-SILENTSPEED = 10; // Speed of video when silent
+SILENTSPEED = 3; // Speed of video when silent
 LOUDSPEED = 1.5; // Speed of video when speaking
 GAINING = 1; // Gain audio afterwards (useful for almost silent videos)
-SMOOTHEN = 10; // How many consequent analyses should be silent to count it as silence
+SMOOTHEN = 4; // How many consequent analyses should be silent to count it as silence
 LEFTING = 0; // How much back to jump when speech starts again (to avoid cutting the first letters of speech) [in seconds]
 
 function updateSettings(settings) {
