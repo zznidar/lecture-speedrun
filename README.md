@@ -30,7 +30,7 @@ Playback speed when the lecturer is speaking.
 #### Lefting (revert each start of speaking)
 Experimental feature to seek the video back for a split-second once the lecturer starts speaking. Would be useful if the first sounds of speech were cut off. Doesn't work too well 😅
 #### Audio gain
-Increase the playback loudness. Usefull if the video volume is very low. Note that this does not affect the analysis. 
+Increase the playback loudness. Useful if the video volume is very low. Note that this does not affect the analysis. 
 #### Hide current loudness indicator
 Current loudness is shown at every given moment to make it easier for you to adjust the _Loudness threshold_. However, some users reported it uses a lot of their CPU. Check this box to stop updating current loudness indicator.
 #### Hide speed indicator
