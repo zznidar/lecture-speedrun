@@ -4,7 +4,7 @@ Lecture Speedrun. Prototype. Very experimental. Accessible [here:](https://zznid
 Inspired by [carykh](https://github.com/carykh)'s [Automatic on-the-fly video editing tool!](https://youtu.be/DQ8orIurGxw) and [jumpcutter](https://github.com/carykh/jumpcutter).
 
 ## Very experimental
-Prototype tested only in Chrome. Firefox may not play any audio. 
+Prototype tested only in Chrome. Firefox prior to v91 may not play any audio. 
 
 ## What is Lecture Speedrun?
 Lecture Speedrun allows you to speed up silent portions of a lecture video/audio on-the-fly, saving you precious time. Should it happen that your teacher speaks really slowly or makes a lot of pauses between sentences, use Lecture Speedrun to play the silent portions at a higher rate. 
