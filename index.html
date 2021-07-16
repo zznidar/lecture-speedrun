@@ -229,6 +229,20 @@ function test() {
 	}
 </script>
 
+<script>
+	// Compatibility check
+	if(window.navigator.userAgent.match(/Firefox\/([0-9]+)\./) && window.navigator.userAgent.match(/Firefox\/([0-9]+)\./)[1] >= 91) {
+		// Firefox 91 fixed bugs that prevented Lecture Speedrun from working
+		// Firefox limits audible playback to between 0.25x and 4x
+		//silentspeed.setAttribute("min", 0.25);
+		silentspeed.setAttribute("max", 4);
+		//loudspeed.setAttribute("min", 0.25);
+		loudspeed.setAttribute("max", 4);
+		// Setting min value to 0.25 would cause values to always end on .25,
+		// thus limiting the max value to even lower, only 3.25 
+	}
+</script>
+
 <script src="presets.js"></script> <!-- Code for managing settings presets (save, load to/from storage; list presets ...) -->
 </body> 
 </html> 
