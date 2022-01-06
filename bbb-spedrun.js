@@ -14,7 +14,8 @@ GAINING = 1; // Gain audio afterwards (useful for almost silent videos)
 SMOOTHEN = 10; // How many consequent analyses should be silent to count it as silence
 LEFTING = 0; // How much back to jump when speech starts again (to avoid cutting the first letters of speech) [in seconds]
 
-myVideo = document.getElementsByClassName("webcam")[0]; // BBB always has sound in the webcam video (even if there is no webcam)
+myVideo = document.getElementById("vjs_video_3_html5_api"); // BBB always has sound in the webcam video (even if there is no webcam)
+myScreenShare = document.getElementById("vjs_video_505_html5_api") // speed needs to be adjusted here as well
 
 var ctx;
 
@@ -69,9 +70,11 @@ function begin() {
 		/* // OLD WAY (without smoothing)
 		if (rms < TRESHOLD) {
 			myVideo.playbackRate = SILENTSPEED;
+			myScreenShare.playbackRate = SILENTSPEED;
 			console.log("quiet");
 		} else {
 			myVideo.playbackRate = LOUDSPEED;
+			myScreenShare.playbackRate = LOUDSPEED;
 			console.log("speaking");
 		}
 		*/
@@ -86,6 +89,7 @@ function begin() {
 			
 			if(checkSpeaking()) {
 				myVideo.playbackRate = LOUDSPEED;
+				myScreenShare.playbackRate = LOUDSPEED;
 				//fast.style.visibility = "hidden"; // we would need to create this element first in order to show or hide it
 				//console.log("speaking");
 				
@@ -95,6 +99,7 @@ function begin() {
 				if(!lastLoud && LEFTING) { // if LEFTING equals 0, disable lefting (useful for resource-hog videos, see above comment)
 					suspended = true;
 					myVideo.currentTime-=(LEFTING);
+					myScreenShare.currentTime-=(LEFTING);
 					setTimeout(() => { console.log("World!"); suspended = false; }, LEFTING*1000/LOUDSPEED);
 				}
 				lastLoud = true;
@@ -102,6 +107,7 @@ function begin() {
 				
 			} else {
 				myVideo.playbackRate = SILENTSPEED;
+				myScreenShare.playbackRate = SILENTSPEED;
 				//fast.style.visibility = "visible"; // we would need to create this element first in order to show or hide it
 				//console.log("quiet");
 				lastLoud = false; /* MAY NOT WORK AS INTENDED; SEE ABOVE */
