@@ -32,21 +32,28 @@ var indexSmoothing = 0;
 var lastLoud = true; // Used to detect change silent -> loud, so we can revert for LEFTING seconds and disable analysis for that time
 var suspended = false;
 
-function begin() {
+async function begin() {
 	// create an audio context and hook up the video element as the source
 	var audioCtx = new AudioContext();
 	var source = audioCtx.createMediaElementSource(myVideo);
 
 	ctx = audioCtx;
 
-	var processor = ctx.createScriptProcessor(2048, 1, 1);
-	source.connect(processor);
-	source.connect(ctx.destination);
-	processor.connect(ctx.destination);
+	//var processor = ctx.createScriptProcessor(2048, 1, 1);
+
+	// Adding an AudioWorkletProcessor
+	// from another script with addModule method
+	await ctx.audioWorklet.addModule('volume-processor.js');
+
+	node = new AudioWorkletNode(ctx, 'volume');
+
+	
+	source.connect(node).connect(ctx.destination);
+
 	
 	// loop through PCM data and calculate average
 	// volume for a given 2048 sample buffer
-	processor.onaudioprocess = function(evt) {
+	/*processor.onaudioprocess = function(evt) {
 		var input = evt.inputBuffer.getChannelData(0)
 			, len = input.length
 			, total = i = 0
@@ -54,8 +61,12 @@ function begin() {
 		while (i < len) total += Math.abs(input[i++])
 		rms = Math.sqrt(total / len)
 		
-		if(loudness) loudness.innerText = rms;
+		if(loudness) loudness.innerText = rms;*/
 
+		node.port.onmessage = event => {
+			//console.log(event, event.data);
+		rms = event.data.rms;
+		if(loudness) loudness.innerText = rms;
 		
 		if(!suspended) {
 		
@@ -118,3 +129,4 @@ function checkSpeaking() {
 // Sources
 // Creating audio context, connecting nodes, gaining: https://stackoverflow.com/a/43794379
 // Analysing audio loudness: https://stackoverflow.com/a/13735171
+// Analysing audio with AudioWorklet: https://stackoverflow.com/a/62732195
