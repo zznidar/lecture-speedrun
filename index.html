@@ -241,6 +241,16 @@ function test() {
 		// Setting min value to 0.25 would cause values to always end on .25,
 		// thus limiting the max value to even lower, only 3.25 
 	}
+	// Firefox 97 increased the speed limit to 8x and added a flag to increase it even more in about:config media.audio.playbackrate.muting_threshold
+	// https://bugzilla.mozilla.org/show_bug.cgi?id=1630569#c15
+	if(window.navigator.userAgent.match(/Firefox\/([0-9]+)\./) && window.navigator.userAgent.match(/Firefox\/([0-9]+)\./)[1] >= 97) {
+		silentspeed.setAttribute("max", 8);
+		loudspeed.setAttribute("max", 8);
+		// Since the flag can be set to any value by user, we should add an option to go even higher than 8. 
+		// But then we have to detect if we go too fast and slow back down.
+	}
+
+
 </script>
 
 <script src="presets.js"></script> <!-- Code for managing settings presets (save, load to/from storage; list presets ...) -->
