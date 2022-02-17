@@ -109,6 +109,7 @@ function test() {
 		timeSpent = "";
 
 		savedTime = Math.round((1 - timeDifference/1000 / myVideo.duration)*100); // Percentage of saved time: (1 – spent/duration)*100
+		speedEquivalent = Math.round(100*100/(100-savedTime))/100
 
 		if(timeDifference >= 1000*3600*24) {
 			timeSpent += (Math.floor(timeDifference/1000/3600/24) + "d ");
@@ -128,8 +129,8 @@ function test() {
 		timeSpent += (Math.floor(timeDifference/1000) + "s");
 		timeDifference %= (1000);
 
-		console.log("You have spent this much time watching this video: ", timeSpent, "and saved this percentage of time: ", savedTime); 
-		infoTimeSpent.innerText = (`You have spent this much time watching this video: ${timeSpent}, saving you ${savedTime} % of your time.`);
+		console.log("You have spent this much time watching this video: ", timeSpent, "and saved this percentage of time: ", savedTime, ". This is equivalent of watching the video at ", speedEquivalent, "x speed."); 
+		infoTimeSpent.innerText = (`You have spent this much time watching this video: ${timeSpent}, saving you ${savedTime} % of your time. This is equivalent of watching the whole video at ${speedEquivalent}x speed.`);
 		infoTimeSpent.style.display = "";
     }
 
