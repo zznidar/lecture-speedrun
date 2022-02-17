@@ -46,7 +46,7 @@ registerProcessor('volume', class extends AudioWorkletProcessor {
       this._nextUpdateFrame -= samples.length;
       if (this._nextUpdateFrame < 0) {
         this._nextUpdateFrame += this.intervalInFrames;
-        this.port.postMessage({rms: rms});
+        this.port.postMessage({rms: rms}); // If we remove the if-condition, this happens 380x per second
       }
     }
     
