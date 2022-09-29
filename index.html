@@ -27,6 +27,8 @@
 		<meta name="msapplication-TileColor" content="#FFFFFF">
 		<meta name="msapplication-TileImage" content="icons/favicon-144.png">
 		<meta name="msapplication-config" content="icons/browserconfig.xml">
+
+	<link rel="manifest" href="manifest.webmanifest" />
 </head> 
 <body> 
 
@@ -255,5 +257,32 @@ function test() {
 </script>
 
 <script src="presets.js"></script> <!-- Code for managing settings presets (save, load to/from storage; list presets ...) -->
+
+<script>
+	console.log("TESTSET1");
+	// Caching https://github.com/AshleyScirra/scirra-offline-sw
+	navigator.serviceWorker.register("sw.js", { scope: "./" });
+	console.log("TESTSET2");
+	
+	let broadcastChannel = new BroadcastChannel("offline");
+	broadcastChannel.onmessage = function (e)
+	{
+		const data = e.data;
+		const messageType = data.type;
+		
+		console.log(data, messageType);
+		
+		// messageType can be:
+		// "downloading-update": has started downloading a new version in the background
+		//     (data.version indicates which)
+		// "update-ready": an update has finished downloading in the background and is
+		//     now ready to use after a reload (data.version indicates which)
+		// "update-pending": an update is available but needs a reload to start using it
+		// "up-to-date": identified that the latest version is already in use
+		// "downloading": started first-time caching of the current version for offline use
+		// "offline-ready": finished first-time caching, so app can now work offline
+	};
+</script>
+
 </body> 
 </html> 
